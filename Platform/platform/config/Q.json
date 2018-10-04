@@ -1,0 +1,169 @@
+{
+	"Q": {
+		"defaultTimezone": "UTC",
+		"handlersBeforeEvent": {
+			"Q/reroute": ["Q/before/Q_reroute"],
+			"Q/responseExtras": ["Q/before/Q/responseExtras"],
+			"Q/tool/render": ["Q/before/Q/tool/render"],
+			"Q/view": ["Q/before/Q/view"],
+			"Q/autoload": ["Q/before/Q/autoload"]
+		},
+		"handlersAfterEvent": {
+			"Q/tool/render": ["Q/after/Q/tool/render"]
+		},
+		"routes": {
+			"": {"module": "Q", "action": "welcome"}
+		},
+		"filename": {
+			"extensions": ["png", "jpeg", "gif", "jpg", "pdf", "js", "ogg", "mp3", "css", "cur"]
+		},
+		"cache": {
+			"duration": 0
+		},
+		"exception": {
+			"showTrace": false,
+			"showFileAndLine": false,
+			"nodeLogName": null,
+			"colors": {
+				"message": ["red"],
+				"fileAndLine": ["black", "light_gray"],
+				"trace": []
+			}
+		},
+		"web": {
+			"ignoreUserAbort": true,
+			"requireValidNonce": []
+		},
+		"response": {
+			"isBuffered": true
+		},
+		"node" : {
+			"host": "127.0.0.1",
+			"port": "10500",
+			"https": false,
+			"socket": {}
+		},
+		"nodeInternal": {
+			"host": "127.0.0.1",
+			"port": "10501",
+			"https": false
+		},
+		"internal": {
+			"umask": "0000",
+			"phpTimeout": 300,
+			"secret": null,
+			"sharding": {
+				"config": "Db/config/shards.json",
+				"upcoming": "Db/config/upcoming.json",
+				"logs": "files/Db/logs",
+				"iterations": 2
+			},
+			"sigField": "sig",
+			"configServer": {
+				"url": null,
+				"internal": false,
+				"interval": 60
+			}
+		},
+		"external": {
+			"secret": null
+		},
+		"configFiles": ["Q/config/bootstrap.json"],
+		"install": {
+			"timeLimit": 600
+		},
+		"session": {
+			"appendSuffix": false,
+			"custom": true,
+			"db": null,
+			"durations": {
+				"session": 0,
+				"mobile": 315360000,
+				"tablet": 315360000,
+				"day": 86400,
+				"month": 2678400, 
+				"year": 31536000,
+				"decade": 315360000
+			},
+			"gc": false,
+			"maxlength": 4095,
+			"nonceMessages": {
+				"sameDomain": "Session expired. Refresh the page and try again.",
+				"otherDomain": "Blocked cross-domain request to foreign domain at {{baseUrl}}"
+			},
+			"userAgentInfo": ["formFactor", "platform", "version"],
+			"allowHijack": true
+		},
+		"javascript": {
+			"responseExtras": {
+				"{{Q}}/js/jquery-1.11.1.min.js": true,
+				"{{Q}}/js/handlebars-v4.0.10.min.js": true,
+				"{{Q}}/js/Q.js": true
+			},
+			"prettyPrintData": true
+		},
+		"stylesheets": {
+			"responseExtras": {
+				"{{Q}}/css/Q.css": true
+			}
+		},
+		"environments": {
+			"*": {
+				"filters": {
+					"css": {
+						"handler": "Q/filters/MatthiasMullie/css"
+					},
+					"js": {
+						"handler": "Q/filters/googleClosureCompiler",
+						"params": {"compilation_level": "SIMPLE_OPTIMIZATIONS"}
+					}
+				}
+			}
+		},
+		"images": {
+			"maxWidth": 5000,
+			"maxHeight": 5000,
+			"pixabay": null
+		},
+		"uploads": {
+			"limits": {
+				"time": 18000,
+				"width": 5000,
+				"height": 5000
+			}
+		},
+		"bundle": {
+			"exclude": {
+				"Q": [
+					"js/ckeditor", "js/froala", "img/bookmarklet"
+				]
+			}
+		},
+		"text": {
+			"*": {
+				"ignoreCache": true,
+				"dontCache": true,
+				"duration": 3600
+			},
+			"useLocale": false
+		},
+		"templates": {
+			"ignoreCache": true,
+			"dontCache": true,
+			"duration": 3600
+		},
+		"tree": {
+			"ignoreCache": false,
+			"dontCache": false,
+			"duration": 3600
+		}
+	},
+	"Db": {
+		"sql": {
+			"querySeparator": "-------- NEXT QUERY STARTS HERE --------"
+		},
+		"survive": {
+			"mysql": false
+		}
+	}
+}

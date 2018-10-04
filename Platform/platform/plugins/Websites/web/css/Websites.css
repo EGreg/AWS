@@ -1,0 +1,81 @@
+.Websites_article_tool .Streams_html_tool { min-height: 100px; font-size: 18px; }
+
+.Websites_side_column .Streams_image_preview_tool img { width: 100%; }
+.Websites_side_column .Streams_image_preview_tool h2 { display: none; }
+.Websites_side_column .Streams_image_preview_tool { width: 100%; }
+.Websites_side_column .Streams_preview_container { max-width: 200px; margin: auto; }
+
+.Q_notMobile .Websites_side_column { float: right; width: 30%; }
+.Q_notMobile .Websites_article_tool .Streams_html_tool { width: 60%; font-size: 24px; }
+
+.Websites_seo_tool .Streams_inplace_tool,
+.Websites_seo_tool .Streams_inplace_tool_container { display: block; text-align: left; }
+
+.Websites_presentation_tool .Streams_preview_tool.Streams_related_stream { cursor: pointer; }
+.Websites_presentation_tool .Streams_preview_tool.Streams_related_stream:hover { background: rgba(200, 200, 200, 0.2); }
+.Websites_slide_dialog .Q_dialog_content { padding: 10px; }
+
+.Websites_article_preview_tool {
+	cursor: pointer;
+}
+
+.Websites_article .Websites_article_tool .Streams_html_tool {
+	width: 70%;
+	font-size: 20px;
+}
+
+.Websites_article .Websites_article_tool { overflow: hidden; padding: 20px; }
+.Websites_article .Websites_article_tool p:first-child { margin-top: 0px; }
+.Websites_article .Websites_article_tool .Websites_side_column {
+	position: fixed; 
+    left: 75%;
+    width: 20%;
+}
+
+.Q_mobile #Websites_article_tool .Websites_side_column {
+	top: 80px;
+}
+
+.Websites_article_preview_tool,
+.Websites_announcement_preview_tool {
+	cursor: pointer;
+}
+
+.Websites_advert_campaign_preview_tool .Websites_advert_campaign_state,
+.Websites_advert_campaign_preview_tool input[type=text] {
+	cursor: pointer;
+}
+
+.Websites_advert_campaign_notYetEnabled {
+	background: #aaa;
+	opacity: 50;
+	pointer-events: none;
+}
+
+.Websites_advert_campaign_interest.Q_button {
+	background-image: url(../img/white/interests.png) !important;
+}
+
+.Websites_advert_campaign_location.Q_button {
+	background-image: url(../img/white/locations.png) !important;
+}
+
+.Websites_advert_campaign_state.Q_button {
+	padding: 5px;
+	background: #5A5;
+}
+
+.Websites_advert_campaign_budget {
+	text-align: right;
+}
+
+.Websites_advert_campaign_preview_tool button.Q_button,
+.Websites_advert_campaign_preview_tool button.Q_button:active {
+	padding: 5px 5px 10px 50px;
+	box-sizing: border-box;
+	vertical-align: middle; min-height: 40px;
+	background-color: #555;
+	background-repeat: no-repeat;
+	background-size: 40px 40px;
+	background-position: left center;
+}

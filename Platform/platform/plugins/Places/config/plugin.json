@@ -1,0 +1,180 @@
+{
+	"Q": {
+		"pluginInfo": {
+			"Places": {
+				"version": "1.0",
+				"compatible": "0.5",
+				"connections": ["Streams", "Places"],
+				"requires": {"Streams": "1.0"}
+			}
+		},
+		"routes": {
+			"Q/plugins/Places/:action": {"module": "Places"}
+		},
+		"handlersBeforeEvent": {
+			"Q/responseExtras": ["Places/before/Q_responseExtras"]
+		},
+		"handlersAfterEvent": {
+			"Streams/interest/add": ["Places/after/Streams_interest_add"],
+			"Streams/interest/remove": ["Places/after/Streams_interest_remove"]
+		},
+		"web": {
+			"requireValidNonce": ["Places"]
+		},
+		"bundle": {
+			"exclude": {
+				"Places": ["img/squareflags"]
+			}
+		}
+	},
+	"Streams": {
+		"userStreams": {
+			"Places": "streams.json"
+		},
+		"types": {
+			"Places/locations": {
+				"description": "a collection of locations",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Locations",
+					"icon": "{{Places}}/img/icons/locations"
+				}
+			},
+			"Places/location": {
+				"description": "Represents a building, venue, ship, park, etc.",
+				"create": true,
+				"edit": true,
+				"messages": {
+					"Places/location/visit": { "post": true },
+					"Places/location/stay": { "post": true }
+				},
+				"defaults": {
+					"icon": "{{Places}}/img/icons/location",
+					"title": "Location"
+				},
+				"relatedFrom": {
+					"*": {
+						"description": "Posted to an entire location"
+					}
+				},
+				"participating": ["Places/participating"]
+			},
+			"Places/area": {
+				"description": "Represents an area within a location, such as a room or suite",
+				"create": true,
+				"edit": true,
+				"messages": {
+					"Places/location/visit": { "post": true },
+					"Places/location/stay": { "post": true }
+				},
+				"defaults": {
+					"icon": "{{Places}}/img/icons/area",
+					"title": "Area"
+				},
+				"relatedFrom": {
+					"*": {
+						"description": "Posted to a specific area"
+					}
+				},
+				"participating": ["Places/participating"]
+			},
+			"Places/floor": {
+				"description": "Represents a floor in a building or ship",
+				"edit": true,
+				"defaults": {
+					"icon": "{{Places}}/img/icons/floor",
+					"title": "Floor"
+				},
+				"relatedFrom": {
+					"*": {
+						"description": "Posted to entire floor"
+					}
+				},
+				"participating": ["Places/participating"]
+			},
+			"Places/column": {
+				"description": "Represents a column in a building or ship",
+				"edit": true,
+				"defaults": {
+					"icon": "{{Places}}/img/icons/column",
+					"title": "Column"
+				},
+				"relatedFrom": {
+					"*": {
+						"description": "Posted to entire column"
+					}
+				},
+				"participating": ["Places/participating"]
+			},
+			"Places/nearby": {
+				"description": "Category for things within a certain distance of a geohash",
+				"defaults": {
+					"title": "Nearby Timeslot"
+				},
+				"relatedTo": {
+					"*": {
+						"description": "New {{fromDisplayType}} posted {{toTitle}}"
+					}
+				}
+			},
+			"Places/interest": {
+				"description": "Category for things within a certain distance of a geohash, matching an interest",
+				"defaults": {
+					"title": "Nearby Interest"
+				},
+				"relatedTo": {
+					"*": {
+						"description": "New {{fromDisplayType}} posted to {{toTitle}}"
+					}
+				}
+			}
+		},
+		"relate": {
+			"types": [
+				"Places/location", "Places/area", "Places/floor", "Places/column"
+			]
+		},
+		"invites": {
+			"sort": {
+				"areas": ["Places", "sortAreaFilenames"]
+			}
+		},
+		"onInsert": {
+			"Users_User": [
+				"Places/participating",
+				"Places/user/location",
+				"Places/user/location/home",
+				"Places/user/location/work",
+				"Places/user/locations"
+			]
+		}
+	},
+	"Places": {
+		"nearby": {
+			"meters": [1000, 5000, 10000, 15000, 20000, 25000, 50000, 75000, 100000],
+			"defaultMeters": 50000,
+			"invitedMeters": 50000
+		},
+		"geolocation": {
+			"requireLogin": false,
+			"allowClientQueries": false,
+			"timeLimit": 100000
+		},
+		"google": {
+			"keys": {
+				"server": null,
+				"web": null
+			}
+		},
+		"location": {
+			"cache": {
+				"duration": 2592000
+			},
+			"default": {
+				"latitude": 40.7537,
+				"longitude": -73.9992
+			}
+		}
+	}
+}

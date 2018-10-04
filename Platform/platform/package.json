@@ -1,0 +1,27 @@
+{
+	"name": "Q",
+	"description": "Qbix Platform",
+	"author": "Qbix",
+	"homepage": "https://qbix.com/platform",
+	"license": "AGPL-1.0",
+	"version": "1.0.0",
+	"engines": {
+		"node": ">= 0.6.0"
+	},
+	"dependencies": {
+		"crypto-js": "3.x.x",
+		"express": "3.x.x",
+		"handlebars": "4.0.x",
+		"moment-timezone": "0.5.x",
+		"mysql": "2.9.x",
+		"nodemailer": "^4.4.2",
+		"nodemailer-smtp-transport": "^2.7.4",
+		"request": "2.x.x",
+		"socket.io": "1.x.x",
+		"yuidocjs": "^0.10.2"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/EGreg/Q.git"
+	}
+}

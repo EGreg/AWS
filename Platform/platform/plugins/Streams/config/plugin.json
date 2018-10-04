@@ -1,0 +1,463 @@
+{
+	"Q": {
+		"pluginInfo": {
+			"Streams": {
+				"version": "1.0.4",
+				"compatible": "0.9",
+				"requires": {"Users": "1.0"},
+				"permissions": ["Streams/icons"],
+				"connections": ["Streams"]
+			}
+		},
+		"handlersBeforeEvent": {
+			"Q/objects": ["Streams/before/Q_objects"],
+			"Q/responseExtras": ["Streams/before/Q_responseExtras"],
+			"Q/Utils/canWriteToPath": ["Streams/before/Q_Utils_canWriteToPath"],
+			"Db/Row/Users_Contact/saveExecute": ["Streams/before/Users_Contact_saveExecute"],
+			"Db/Row/Users_Contact/removeExecute": ["Streams/before/Users_Contact_removeExecute"],
+			"Users/canManageContacts": ["Streams/before/Users_canManageContacts"],
+			"Users/canManageLabels": ["Streams/before/Users_canManageLabels"],
+			"Users/User/displayName": ["Streams/before/Users_User_displayName"]
+		},
+		"handlersAfterEvent": {
+			"Q/Plugin/install": ["Streams/after/Q_Plugin_install"],
+			"Q/objects": ["Streams/after/Q_objects"],
+			"Q/responseExtras": ["Streams/after/Q_responseExtras"],
+			"Q/image/save": ["Streams/after/Q_image_save"],
+			"Q/file/save": ["Streams/after/Q_file_save"],
+			"Db/Row/Users_User/saveExecute": ["Streams/after/Users_User_saveExecute"],
+			"Db/Row/Users_Contact/saveExecute": ["Streams/after/Users_Contact_saveExecute"],
+			"Db/Row/Users_Label/saveExecute": ["Streams/after/Users_Label_saveExecute"],
+			"Db/Row/Users_Contact/removeExecute": ["Streams/after/Users_Contact_removeExecute"],
+			"Db/Row/Users_Label/removeExecute": ["Streams/after/Users_Label_removeExecute"],
+			"Users/saveContactsFromLinks": ["Streams/after/Users_saveContactsFromLinks"],
+			"Users/setLoggedInUser": ["Streams/after/Users_setLoggedInUser"],
+			"Streams/message/Streams/relatedTo": ["Streams/after/Streams_message_Streams_relatedTo"],
+			"Streams/message/Streams/unrelatedTo": ["Streams/after/Streams_message_Streams_unrelatedTo"],
+			"Streams/message/Streams/updateRelateTo": ["Streams/after/Streams_message_Streams_updateRelateTo"],
+			"Streams/Stream/save/Streams/greeting": ["Streams/after/Streams_Stream_save_Streams_greeting"]
+		},
+		"routes": {
+			"Q/plugins/Streams/:action": {"module": "Streams"},
+			"Q/plugins/Streams/invite/:token": {"module": "Streams", "action": "invite"},
+			"i/:token": {"module": "Streams", "action": "invited"},
+			"s/:publisherId/:streamName[]": {"module": "Streams", "action": "stream"}
+		},
+		"web": {
+			"requireValidNonce": ["Streams"]
+		},
+		"bundle": {
+			"exclude": {
+				"Streams": ["img/icons/Streams/interest", "img/icons/files"]
+			}
+		}
+	},
+	"Users": {
+		"login": {
+			"userQueryUri": "Streams/user"
+		},
+		"paths": {
+			"uploads": {
+				"files/{{app}}/uploads/Streams": true
+			}
+		}
+	},
+	"Streams": {
+		"userStreams": {
+			"Streams": "streams.json"
+		},
+		"requiredUserStreams": {
+			"Streams/user/firstName": true,
+			"Streams/user/lastName": true,
+			"Streams/user/username": true,
+			"Streams/user/icon": true
+		},
+		"types": {
+			"*": {
+				"private": [
+					"insertedTime",
+					"updatedTime",
+					"messageCount",
+					"invitedCount",
+					"participatingCount",
+					"leftCount"
+				],
+				"invite": {
+					"dialog": {
+						"title": "You've been invited",
+						"user": {
+							"text": "has invited you to"
+						},
+						"related": {
+						},
+						"prompt": "Let friends recognize you:",
+						"button": "Get Started",
+						"templateName": "Streams/invite/complete"
+					},
+					"duration": 2592000
+				},
+				"request": {
+					"duration": 2592000
+				},
+				"subscriptions": {
+					"filter": {
+						"types": ["^(?!(Users/)|(Streams/)).*/", "Streams/relatedTo", "Streams/chat/message"],
+						"notifications": 0
+					}
+				},
+				"observersMax": 100,
+				"getMessagesLimit": 100,
+				"getParticipantsLimit": 100,
+				"messages": {
+					"*": {
+						"subject": "Message \"{{& message.fields.type}}\" to \"{{& stream.fields.title}}\""
+					},
+					"Streams/changed": {
+						"description": "Fields or attributes of the stream have changed",
+						"subject": "Changes in {{stream.fields.title}}"
+					},
+					"Streams/invite": {
+						"description": "You were invited",
+						"subject": "You were invited to {{& stream.fields.title}}"
+					},
+					"Streams/announcement": {
+						"description": "Announcement for everyone in the stream",
+						"subject": "Announcement in {{& streams.fields.title}}"
+					},
+					"Streams/relatedTo": {
+						"description": "Some other stream has been related to this one",
+						"subject": "{{&call 'message.getInstruction' 'description'}}"
+					},
+					"Streams/relatedFrom": {
+						"description": "This stream has been related to some other one",
+						"subject": "{{&call 'message.getInstruction' 'description'}}"
+					},
+					"Streams/access": {
+						"description": "Access to stream has changed",
+						"subject": "{{&call 'avatar.displayName'}} changed stream access"
+					},
+					"Streams/chat/message": {
+						"description": "A chat message was posted",
+						"subject": "Chat in {{stream.fields.title}}"
+					},
+					"Streams/chat/edit": {
+						"description": "A chat message was edited",
+						"title": "Chat message edited"
+					},
+					"Streams/chat/remove": {
+						"description": "A chat message was removed",
+						"title": "Chat message removed"
+					},
+					"Streams/closed": {
+						"description": "The stream has been closed",
+						"subject": "{{stream.fields.title}} has been closed"
+					}
+				},
+				"defaults": {
+					"type": "Streams/text",
+					"title": "Untitled",
+					"icon": "default",
+					"content": "",
+					"attributes": "",
+					"readLevel": 40,
+					"writeLevel": 10,
+					"adminLevel": 20,
+					"messageCount": 0,
+					"invitedCount": 0,
+					"participatingCount": 0,
+					"leftCount": 0
+				},
+				"url": "{{baseUrl}}/s/{{publisherId}}/{{name}}",
+				"participating": ["Streams/participating"]
+			},
+			"Streams/invited": {
+				"subscriptions": {
+					"filter": {
+						"types": ["Streams/invite"],
+						"notifications": 0
+					}
+				}
+			},
+			"Streams/resource": {
+				"description": "for managing access to a resource and posting messages about updates"
+			},
+			"Streams/task": {
+				"description": "for receiving updates about progress on a certain task",
+				"messages": {
+					"Streams/task/progress": {
+						"description": "Progress has been made",
+						"subject": "Progress made on {{stream.fields.title}}"
+					},
+					"Streams/task/complete": {
+						"description": "Task has been completed",
+						"subject": "Task completed: {{stream.fields.title}}"
+					}
+				},
+				"attributes": {
+					"state": "enum('unassigned','assigned','accepted','progress','paused','completed','approved')",
+					"progress": "double",
+					"items": "integer",
+					"processed": "integer"
+				},
+				"defaults": {
+					"title": "Untitled Task",
+					"icon": "Streams/task",
+					"readLevel": 0,
+					"writeLevel": 0,
+					"adminLevel": 0
+				},
+				"extend": ["Streams_Task"],
+				"participating": ["Streams/participating/tasks"]
+			},
+			"Streams/tasks": {
+				"description": "category for tasks",
+				"attributes": {
+					"completed": "double"
+				},
+				"defaults": {
+					"title": "Tasks",
+					"icon": "Streams/tasks"
+				}
+			},
+			"Streams/text": {
+				"create": true, 
+				"edit": true
+			},
+			"Streams/text/small": {"create": true, "edit": true,
+				"messages": {
+					"Streams/chat/message": {
+						"post": true
+					}
+				}
+			},
+			"Streams/text/medium": {"create": true, "edit": true},
+			"Streams/text/name": {"create": true, "edit": true},
+			"Streams/text/url": {"create": true, "edit": true},
+			"Streams/text/emailAddress": {"create": true, "edit": true},
+			"Streams/text/mobileNumber": {"create": true, "edit": true},
+			"Streams/date": {"create": true, "edit": true},
+			"Streams/number": {"create": true, "edit": true},
+			"Streams/image": {
+				"description": "visual image",
+				"create": true,
+				"edit": true,
+				"sizes": ["40", "50", "80", "200", "x200", "200x"],
+				"defaults": {
+					"title": "Untitled Image",
+					"icon": "Streams/image"
+				}
+			},
+			"Streams/images": {
+				"description": "gallery of images",
+				"create": true,
+				"edit": true,
+				"defaults": { 
+					"title": "Untitled Gallery"
+				}
+			},
+			"Streams/album": {
+				"description": "",
+				"create": true,
+				"edit": true,
+				"sizes": [
+					"40",
+					"50",
+					"80",
+					"200",
+					"x200",
+					"200x"
+				],
+				"defaults": {
+					"icon": "Streams/image",
+					"title": "Untitled Image"
+				}
+			},
+			"Streams/audio": {
+				"description": "audio clip",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"icon": "Streams/audio",
+					"title": "Untitled Audio Clip"
+				},
+				"updateTitle": true
+			},
+			"Streams/file": {
+				"description": "uploaded file",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"icon": "files/_blank",
+					"title": "Untitled File"
+				},
+				"updateTitle": true,
+				"updateIcon": true
+			},
+			"Streams/category": {
+				"description": "category to which other things can be related",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Untitled Category",
+					"icon": "Streams/category"
+				},
+				"see": ["relatedTo"]
+			},
+			"Streams/participating": {
+				"description": "streams are related/unrelated to this when a user joins/leaves",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Participating List",
+					"icon": "Streams/category"
+				}
+			},
+			"Streams/interest": {
+				"description": "represents a user's interest in a certain topic",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"icon": "Streams/interest/default",
+					"title": "Untitled Interest"
+				}
+			},
+			"Streams/incoming": {
+				"description": "destination for messages sent by other users",
+				"create": true,
+				"messages": {
+					"Streams/incoming/message": {"post": true},
+					"*": {
+						"subject": "{{app}}: Incoming Message"
+					}
+				}
+			},
+			"Streams/chat": {
+				"description": "conversation",
+				"create": true,
+				"edit": ["icon", "title", "content"],
+				"messages": {
+					"Streams/chat/message": { "post": true },
+					"Streams/chat/edit": { "post": true },
+					"Streams/chat/remove": { "post": true }
+				},
+				"defaults": {
+					"title": "Conversation",
+					"icon": "Streams/chat"
+				}
+			},
+			"Streams/experience": {
+				"description": "a common experience for members of a community"
+			},
+			"Streams/greeting": {
+				"description": "greeting with which a user can introduce themselves",
+				"edit": true,
+				"defaults": {
+					"title": "Community Greeting"
+				}
+			}
+		},
+		"categorize": {
+			"relationTypes": ["Streams/interests"],
+			"streamTypes": ["Streams/category"]
+		},
+		"lookup": {
+			"limit": 10,
+			"requireTitleIndex": true
+		},
+		"relate": {
+			"types": ["Streams/experience", "Streams/interest"]
+		},
+		"invites": {
+			"tokens": {
+				"length": 16,
+				"characters": "abcdefghijklmnopqrstuvwxyz"
+			},
+			"baseUrl": "i",
+			"participantReason": "Was invited",
+			"limit": 100,
+			"layout": {
+				"default": "Streams/layout/invitations.php"
+			},
+			"subpath": "{{app}}/uploads/Streams/invitations",
+			"sort": {}
+		},
+		"interests": {
+			"allowClientQueries": false
+		},
+		"db": {
+			"limits": {
+				"stream": 100,
+				"participating": 1000
+			},
+			"pages": 5
+		},
+		"readLevelOptions": {
+			"0": "nothing about it",
+			"10": "that something is there",
+			"20": "its current content",
+			"30": "who is participating in it",
+			"40": "the social activity inside"
+		},
+		"writeLevelOptions": {
+			"0": "do nothing to it",
+			"10": "participate in it",
+			"20": "post messages to it",
+			"30": "edit its content"
+		},
+		"adminLevelOptions": {
+			"0": "not do anything special",
+			"10": "share messages from the stream",
+			"30": "invite others to the stream",
+			"40": "manage the stream",
+			"50": "own it and appoint managers"
+		},
+		"onInsert": { /* streams to insert when a row is inserted */
+			"Users_User": [
+				"Streams/participating",
+				"Streams/invited",
+				"Streams/user/username",
+				"Streams/user/icon",
+				"Streams/user/firstName",
+				"Streams/user/lastName",
+				"Streams/user/emailAddress",
+				"Streams/user/mobileNumber",
+				"Streams/user/interests",
+				"Streams/contacts",
+				"Streams/labels",
+				"Streams/image/album"
+			]
+		},
+		"onUpdate": { /* streams to update when a row is updated */
+			"Users_User": {
+				"username": "Streams/user/username",
+				"icon": "Streams/user/icon",
+				"emailAddress": "Streams/user/emailAddress",
+				"mobileNumber": "Streams/user/mobileNumber"
+			}
+		}, 
+		"icons": {
+			"sizes": {
+				"40": "40.png",
+				"50": "50.png",
+				"80": "80.png",
+				"67x100": "x100.png",
+				"500x333": "500x.png"
+			},
+			"defaultSize": "40",
+			"defaultCacheBust": "1000"
+		},
+		"rules": {
+			"deliver": {
+				"default": ["devices", "email", "mobile"],
+				"invited": ["devices", "mobile+pending", "email+pending"]
+			}
+		},
+		"notifications": {
+			"onlyIfAllClientsOffline": true,
+			"debug": true
+		},
+		"import": {
+			"timeLimit": 100000
+		}
+	}
+}

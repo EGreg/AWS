@@ -1,0 +1,250 @@
+{
+	"Streams/experience/main": {
+		"type": "Streams/experience",
+		"title": "Main Experience",
+		"icon": "Streams/experience",
+		"readLevel": 40,
+		"writeLevel": 23,
+		"adminLevel": 20
+	},
+	"Streams/participating": {
+		"type": "Streams/participating",
+		"title": "Messages about joining/leaving streams",
+		"icon": "",
+		"readLevel": 0,
+		"writeLevel": 0,
+		"adminLevel": 0
+	},
+	"Streams/invited": {
+		"type": "Streams/invited",
+		"title": "Invited",
+		"icon": "",
+		"readLevel": 0,
+		"writeLevel": 20,
+		"adminLevel": 0,
+		"subscribe": {
+			"rule": {
+				"deliver": {
+					"to": "invited",
+					"filter": "{\"types\":[\"Streams/invite\"],\"notifications\":0}"
+				}
+			}
+		}
+	},
+	"Streams/user/icon": {
+		"type": "Streams/image",
+		"title": "Icon",
+		"icon": "Streams/image",
+		"userField": "icon",
+		"platforms": {
+			"facebook": "pic",
+			"twitter": "profile_image_url"
+		}
+	},
+	"Streams/user/username": {
+		"type": "Streams/text/name",
+		"title": "Username",
+		"icon": "",
+		"userField": "username",
+		"platforms": {
+			"facebook": "username",
+			"twitter": "screen_name"
+		}
+	},
+	"Streams/user/firstName": {
+		"type": "Streams/text/name",
+		"title": "First Name",
+		"icon": "",
+		"platforms": {
+			"facebook": "first_name",
+			"twitter": [
+				"name",
+				" ",
+				0
+			]
+		}
+	},
+	"Streams/user/middleName": {
+		"type": "Streams/text/name",
+		"title": "Middle Name",
+		"icon": "",
+		"platforms": {
+			"facebook": "middle_name",
+			"twitter": [
+				"name",
+				" ",
+				1
+			]
+		}
+	},
+	"Streams/user/lastName": {
+		"type": "Streams/text/name",
+		"title": "Last Name",
+		"icon": "",
+		"platforms": {
+			"facebook": "last_name"
+		}
+	},
+	"Streams/user/emailAddress": {
+		"type": "Streams/text/emailAddress",
+		"title": "Email Address",
+		"icon": "",
+		"readLevel": 0,
+		"writeLevel": 0,
+		"adminLevel": 0,
+		"platforms": {
+			"facebook": "email",
+			"twitter": "email"
+		}
+	},
+	"Streams/user/mobileNumber": {
+		"type": "Streams/text/mobileNumber",
+		"title": "Mobile Number",
+		"icon": "",
+		"readLevel": 0,
+		"writeLevel": 0,
+		"adminLevel": 0
+	},
+	"Streams/user/status": {
+		"type": "Streams/text/small",
+		"title": "Status",
+		"icon": ""
+	},
+	"Streams/user/description": {
+		"type": "Streams/text/small",
+		"title": "Description",
+		"icon": "",
+		"platforms": {
+			"facebook": "profile_blurb"
+		}
+	},
+	"Streams/user/presence": {
+		"type": "Streams/enum/presence",
+		"title": "Presence",
+		"icon": ""
+	},
+	"Streams/contacts": {
+		"type": "Streams/resource",
+		"title": "Contacts",
+		"icon": ""
+	},
+	"Streams/labels": {
+		"type": "Streams/resource",
+		"title": "Labels",
+		"icon": ""
+	},
+	"Streams/user/interests": {
+		"type": "Streams/category",
+		"title": "Interests",
+		"icon": ""
+	},
+	"Streams/user/website": {
+		"type": "Streams/text/url",
+		"title": "Website",
+		"icon": ""
+	},
+	"Streams/user/facebook": {
+		"type": "Streams/text/url",
+		"title": "Facebook Profile",
+		"icon": "",
+		"platforms": {
+			"facebook": "link"
+		}
+	},
+	"Streams/user/facebook/uid": {
+		"type": "Streams/uid",
+		"title": "Facebook UserID",
+		"icon": "",
+		"platforms": {
+			"facebook": "id"
+		}
+	},
+	"Streams/user/twitter/uid": {
+		"type": "Streams/text/url",
+		"title": "Twitter UserID",
+		"icon": "",
+		"platforms": {
+			"twitter": "id"
+		}
+	},
+	"Streams/user/timezone": {
+		"type": "Streams/number/timezone",
+		"title": "Time Zone",
+		"icon": "",
+		"platforms": {
+			"facebook": "timezone",
+			"twitter": "time_zone"
+		}
+	},
+	"Streams/user/gender": {
+		"type": "Streams/enum/gender",
+		"title": "Gender",
+		"icon": "",
+		"platforms": {
+			"facebook": "gender"
+		}
+	},
+	"Streams/user/height": {
+		"type": "Streams/date/height",
+		"title": "Height",
+		"icon": ""
+	},
+	"Streams/user/birthday": {
+		"type": "Streams/date/birthday",
+		"title": "Birthday",
+		"icon": "",
+		"platforms": {
+			"facebook": "birthday"
+		}
+	},
+	"Streams/user/age": {
+		"type": "Streams/number/age",
+		"title": "Age",
+		"icon": ""
+	},
+	"Streams/user/affiliation": {
+		"type": "Streams/text/affiliation",
+		"title": "Affiliation",
+		"icon": ""
+	},
+	"Streams/user/dating": {
+		"type": "Streams/enum/dating",
+		"title": "Dating",
+		"icon": ""
+	},
+	"Streams/user/political": {
+		"type": "Streams/text/small",
+		"title": "Political Views",
+		"icon": ""
+	},
+	"Streams/user/music": {
+		"type": "Streams/category",
+		"title": "Music",
+		"icon": ""
+	},
+	"Streams/user/tv": {
+		"type": "Streams/category",
+		"title": "TV Shows",
+		"icon": ""
+	},
+	"Streams/user/movies": {
+		"type": "Streams/category",
+		"title": "Movies",
+		"icon": ""
+	},
+	"Streams/user/books": {
+		"type": "Streams/category",
+		"title": "Books",
+		"icon": ""
+	},
+	"Streams/user/quotes": {
+		"type": "Streams/category",
+		"title": "Quotes",
+		"icon": ""
+	},
+	"Streams/image/album": {
+		"type": "Streams/album",
+		"title": "Quotes",
+		"icon": ""
+	}
+}

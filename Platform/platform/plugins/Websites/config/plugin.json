@@ -1,0 +1,140 @@
+{
+	"Q": {
+		"pluginInfo": {
+			"Websites": {
+				"version": "1.0",
+				"compatible": "0.8",
+				"requires": {"Streams": "1.0"},
+				"connections": ["Users", "Streams", "Websites"]
+			}
+		},
+		"handlersBeforeEvent": {
+			"Q/Uri/toUrl": ["Websites/before/Q_Uri_toUrl"],
+			"Q/Uri/fromUrl": ["Websites/before/Q_Uri_fromUrl"],
+			"Q/responseExtras": ["Websites/before/Q_responseExtras"],
+			"Streams/Stream/save/Websites/article": ["Websites/before/Streams_Stream_save_Websites_article"],
+			"Streams/Stream/save/Websites/seo": ["Websites/before/Streams_Stream_save_Websites_seo"]
+		},
+		"web": {
+			"requireValidNonce": ["Websites"]
+		},
+		"routes": {
+			"Websites/:action/:articleId": {"module": "Websites"}
+		}
+	},
+	"Streams": {
+		"types": {
+			"*": {
+				"relatedTo": {
+					"Websites/announcements": {
+						"description": "An announcement was posted",
+						"url": "{{baseUrl}}/Websites/announcement/{{streamName.[2]}}"
+					},
+					"Websites/articles": {
+						"description": "An article was posted",
+						"url": "{{baseUrl}}/Websites/article/{{streamName.[2]}}"
+					}
+				}
+			},
+			"Websites/seo": {
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Website SEO"
+				}
+			},
+			"Websites/article": {
+				"description": "An HTML document that various users can view and edit",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Article",
+					"readLevel": 10,
+					"writeLevel": 0,
+					"adminLevel": 10
+				},
+				"extend": ["Websites_Article"]
+			},
+			"Websites/slide": {
+				"description": "A slide in a presentation, can include HTML, audio etc.",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Untitled Slide",
+					"icon": "{{Websites}}/img/icons/Websites/slide",
+					"readLevel": 10,
+					"writeLevel": 0,
+					"adminLevel": 10
+				},
+				"extend": ["Websites_Slide"]
+			},
+			"Websites/presentation": {
+				"description": "A presentation consisting of various slides",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Presentation",
+					"icon": "{{Websites}}/img/icons/Websites/presentation",
+					"readLevel": 10,
+					"writeLevel": 0,
+					"adminLevel": 10
+				}
+			},
+			"Websites/advert/unit": {
+				"description": "An advertising unit on a website",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Advertising Unit",
+					"icon": "{{Websites}}/img/icons/Websites/presentation",
+					"readLevel": 0,
+					"writeLevel": 0,
+					"adminLevel": 0
+				}
+			},
+			"Websites/advert/placement": {
+				"description": "A way of grouping advertising units under a name",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Advertising Placement",
+					"icon": "Streams/category",
+					"readLevel": 0,
+					"writeLevel": 0,
+					"adminLevel": 0
+				}
+			},
+			"Websites/advert/creative": {
+				"description": "Content for an advertisement",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Advertising Creative",
+					"icon": "{{Websites}}/img/icons/Websites/advert/creative",
+					"readLevel": 0,
+					"writeLevel": 0,
+					"adminLevel": 0
+				}
+			},
+			"Websites/advert/campaign": {
+				"description": "An advertising campaign",
+				"create": true,
+				"edit": true,
+				"defaults": {
+					"title": "Advertising Campaign",
+					"icon": "{{Websites}}/img/icons/Websites/advert/campaign",
+					"readLevel": 0,
+					"writeLevel": 0,
+					"adminLevel": 0
+				}
+			}
+		}
+	},
+	"Websites": {
+		"seoReload": true,
+		"permalinks": {
+			"routes": {},
+			"actions": {}
+		}
+	}
+}

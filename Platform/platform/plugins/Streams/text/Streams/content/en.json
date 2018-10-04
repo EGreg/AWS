@@ -1,0 +1,20 @@
+{
+	"preview": {
+		"NewItemTitle": "New Item"
+	},
+	"interests": {
+		"Filter": "What do you enjoy?",
+		"CanAdd": "If you still can't find what you're looking for, you can add a new interest below:",
+		"TrySynonyms": "Don't see it? Try some synonyms."
+	},
+	"chat": {
+		"flaggedForAdminReview": "Message has been flagged for admin review. Tap again to unflag.",
+		"noOneSaid": "No one has said anything",
+		"closeChatButton": "Close chat",
+		"closeChatConfirmTitle": "Close this chat?",
+		"closeChatConfirm": "Are you sure you want to close this chat?",
+		"closeChatConfirmYes": "Yes",
+		"closeChatConfirmNo": "No",
+		"earlierComments": "earlier comments"
+	}
+}
