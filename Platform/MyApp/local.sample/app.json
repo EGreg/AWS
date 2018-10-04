@@ -1,0 +1,224 @@
+{
+	"Q": {
+		"localNotYetConfigured": "REMOVE THIS ENTRY WHEN YOU ARE DONE WITH THE LOCAL CONFIGURATION",
+		"web": {
+			"appRootUrl": "https://myapp.local",
+			"controllerSuffix": "" /* "or index.php if no URL rewriting on webserver" */
+		},
+		"node" : {
+			"host": "MyApp.loc",
+			"port": "10500",
+			"url": "https://myapp.local:10500", /* "{{baseUrl}}/node.js", */
+			"https": false, /* {
+				"key": "location of key file here",
+				"cert": "location of cert file here",
+				"ca": "location of the ca file, optional",
+				"dhparam": "location of the dhparam file, optional"
+			}, */
+			"socket": {}
+		},
+		"nodeInternal": {
+			"host": "127.0.0.1",
+			"port": "10501"
+		},
+		"images": {
+			"pixabay": null /* {
+				"username": "YOUR USERNAME HERE",
+				"key": "YOUR SECRET KEY HERE"
+			} */
+		},
+		"external": {
+			"secret": "CHANGE TO SOME RANDOM STRING, FOR SIGNING DATA FOR EXTERNAL CLIENTS"
+		},
+		"internal": {
+			"secret": "CHANGE TO SOME RANDOM STRING, FOR SIGNING INTERNAL MESSAGES"
+		},
+		"environment": "",
+		/* "scriptFiles": ["config/Q/urls.php"], */
+		"session": {
+			"allowHijack": true /* set to false in production */
+		},
+		"javascript": {
+			"prettyPrintData": true
+		}
+	},
+	"Db": {
+		"connections": {
+			"*": {
+				"dsn": "mysql:host=localhost;dbname=DBNAME;charset=utf8",
+				"username": "USERNAME",
+				"password": "PASSWORD",
+				"driver_options": { "3": 2 }	
+			},
+			"Users": {
+				"prefix": "users_",
+				"shards": {}
+			},
+			"Streams": {
+				"prefix": "streams_",
+				"shards": {}
+			}
+		},
+		"logging": true
+	},
+	"Users": {
+		"community": {
+			"id": "MyApp",
+			"name": "MyApp"
+			/* "suffix": "Inc" */
+		},
+		"email": {
+			"smtp": null, /* {
+				"auth": "login",
+				"username": "USERNAME HERE",
+				"password": "PASSWORD HERE",
+				"ssl": "ssl",
+				"port": 465,
+				"host": "smtp.sendgrid.net"
+			}, */
+			"from": ["notifications@MyApp.com", "MyApp"]
+		},
+		"mobile": {
+			"twilio": null, /* {
+				"sid": "YOUR SID HERE",
+				"token": "YOUR TOKEN HERE"
+			}, */
+			"from": "+1234567890"
+		},
+		"authorize": {
+			"terms": {
+				"uri": null
+			},
+			"clients": {
+				"MyApp-ios": {
+					"paths": null,
+					"scopes": {
+						"all": "give this app full access"
+					},
+					"automatic": true
+				},
+				"MyApp-android": {
+					"paths": null,
+					"scopes": {
+						"all": "give this app full access"
+					},
+					"automatic": true
+				}
+			}
+		},
+		"apps": {
+			"platforms": ["facebook", "ios", "android","AWS"],
+			"export": ["facebook","AWS"],
+			"AWS": {
+				"Aws_App": 
+				{
+					"accessKey" : "AWS IAM AccessKey",
+					"secretKey" : "AWS IAM SecretKey",
+					"host_ses" : "AWS SES host",
+					"host_route53" : "AWS route53 host",
+					"domain" : "AWS Domain Name",
+					"MailToDomain" : "AWS Mail Name"
+				}
+			},
+			"facebook": {
+				"MyApp": {
+					"name": "FACEBOOK APP NAME HERE",
+					"appId": "FACEBOOK APP ID HERE",
+					"secret": "PUT SECRET HERE",
+					"url": "http://apps.facebook.com/YOURAPP",
+					"domains": ["THE BASE DOMAINS YOU SET IN FACEBOOK, USED FOR AUTH COOKIE"]
+				}
+			},
+			"ios": {
+				"MyApp": {
+					"appId": "com.mycompany.myapp",
+					"url": "https://itunes.apple.com/us/app/keynote/id361285480?mt=8",
+					"scheme": "myapp://",
+					"sandbox": true,
+					"logging": "ios",
+					"device": {
+						"added": "Notifications have been enabled"
+					},
+					"secret": "SHARED SECRET HERE",
+					"token": { /* see https://github.com/node-apn/node-apn/blob/master/doc/provider.markdown */
+						"key": "local/Users/certs/MyApp/token/cert.p8",
+						"keyId": "Find it at https://developer.apple.com/account/ios/certificate/",
+						"passphrase": null,
+						"teamId": "Find it at https://developer.apple.com/account/#/membership"
+					},
+					"ssl": { /* see https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW11 */
+						"cert": "local/Users/certs/MyApp/sandbox/bundle.pem",
+						"passphrase": null
+					}
+				}
+			},
+			"android": {
+				"MyApp": {
+					"appId": "com.mycompany.myapp",
+					"url": "https://play.google.com/store/apps/details?id=com.mycompany.myapp",
+					"scheme": "myapp://",
+					"key": "AUTHORIZATION KEY HERE",
+					"senderID": "YOUR SENDER ID HERE"
+				}
+			},
+			"amazon": {
+				"MyApp": {
+					"appId": "B01MQTS32B",
+					"url": "http://www.amazon.com/gp/mas/dl/android?asin=B01MQTS32B",
+					"clientId": "ADM CLIENT ID HERE",
+					"secret": "SHARED SECRET HERE"
+				}
+			},
+			"windows": {
+				"MyApp": {
+					"appId": "9nblggh2s4gt",
+					"url": "https://www.microsoft.com/en-us/store/p/monster-go/9nblggh2s4gt",
+					"clientId": "PACKAGE SECURITY IDENTIFIER",
+					"secret": "SHARED SECRET HERE"
+				}
+			},
+			"web": {
+				"MyApp": {
+					"appId": "com.mycompany.myapp",
+					"privateKey": "RELATIVE TO MyApp/local",
+					"publicKey": "THE LITERAL PUBLIC KEY"
+				}
+			}
+		},
+		"newsapi": {
+			"key": "GET A NEWSAPI.ORG KEY FOR Users/activate suggestions"
+		}
+	},
+	"Streams": {
+		"notifications": {
+			"appIds": { /*
+				"facebook": ["FACEBOOK APP ID HERE"],
+				"ios": ["361285480"]
+			*/ }
+		}
+	},
+	"Assets": {
+		"payments":  {
+			"stripe": null, /* {
+				"secret": "XXXXX",
+				"publishableKey": "XXXXX"
+			}, */
+			"authnet": null /* {
+				"name": "XXXXX",
+				"transactionKey": "XXXXX",
+				"testing": false
+			} */
+		}
+	},
+	"Places": {
+		"google": {
+			"keys": {
+				"server": "GET A GOOGLE API KEY for server API calls",
+				"web": "GET A GOOGLE API KEY for website calls"
+			}
+		}
+	},
+	"MyApp": {
+		"debugging": true
+	}
+}

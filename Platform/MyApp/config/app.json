@@ -1,0 +1,200 @@
+{
+	"Q": {
+		"app": "MyApp",
+		"appInfo" : {
+			"version" : "0.1",
+			"compatible": "0.1",
+			"requires": {
+				"Q": "1.0",
+				"Users": "1.0",
+				"Streams": "1.0"
+			},
+			"recognizes": {
+				"Q": "1.0",
+				"Users": "1.0",
+				"Streams": "1.0"
+			},
+			"connections": []
+		},
+		"plugins": ["Users", "Streams"],
+		"handlersBeforeEvent": {
+			"Q/responseExtras": ["MyApp/before/Q_responseExtras"]
+		},
+		"handlersAfterEvent": {
+			"Q/configure": ["MyApp/after/Q_configure"]
+		},
+		"routes": {
+			"": {"module": "MyApp", "action": "welcome"},
+			":action": {"module": "MyApp"},
+			"facebook/:action": {"module": "MyApp", "facebook": 1}
+		},
+		"response": {
+			"slotNames": ["dashboard", "content", "dialogs", "title", "notices"],
+			"ajax": [],
+			"layout": {
+				"desktop": "MyApp/layout/desktop.php",
+				"tablet": "MyApp/layout/tablet.php",
+				"mobile": "MyApp/layout/mobile.php"
+			},
+			"cacheBaseUrl": "https://myapp.intercept"
+		},
+		"exception": {
+			"showTrace": true,
+			"showFileAndLine": true
+		},
+		"node": {
+			"headers": {
+				"Access-Control-Allow-Origin": "*"
+			}
+		},
+		"web": {
+			"languages": {"en": 1}
+		},
+		"bundle": {
+			"exclude": {
+				"MyApp": [
+					"action.php", "batch.php", "index.php", "fast.php", "Q.inc.php",
+					".htaccess", "Q/uploads"
+				]
+			}
+		},
+		"javascript": {
+			"uris": ["MyApp/home"]
+		},
+		"environments": {
+			"live": {
+				"files": {
+					"{{Q}}/css/Q.css": "css/all.css",
+					"{{Users}}/css/Users.css": "css/all.css",
+					"{{Streams}}/css/Streams.css": "css/all.css",
+					"css/MyApp.css": "css/all.css",
+					"{{Q}}/js/jquery-3.2.1.min.js": "js/all.js",
+					"{{Q}}/js/handlebars-v4.0.10.min.js": "js/all.js",
+					"{{Q}}/js/Q.js": "js/all.js",
+					"{{Users}}/js/Users.js": "js/all.js",
+					"{{Streams}}/js/Streams.js": "js/all.js",
+					"js/MyApp.js": "js/all.js"
+				}
+			}
+		},
+		"text": {
+			"useLocale": false,
+			"MyApp": {
+				"dashboard.php": ["MyApp/content"],
+				"content": {
+					"*": ["MyApp/content"]
+				},
+				"email": {
+					"*": ["MyApp/email"]
+				},
+				"sms": {
+					"*": ["MyApp/sms"]
+				},
+				"dialogs": {
+					"*": ["MyApp/dialogs"]
+				},
+				"invitations": {
+					"*": ["MyApp/invitations"]
+				}
+			}
+		}
+	},
+	"Users": {
+		"transactional": {
+			"activation": {
+				"subject": ["MyApp/email", ["activation", "Subject"]],
+				"body": "MyApp/email/activation.php",
+				"sms": "MyApp/sms/activation.php"
+			},
+			"identifier": {
+				"subject": ["MyApp/email", ["identifier", "Subject"]],
+				"body": "MyApp/email/addEmail.php",
+				"sms": "MyApp/sms/addMobile.php"
+			},
+			"resend": {
+				"subject": ["MyApp/email", ["resend", "Subject"]],
+				"body": "MyApp/email/resend.php",
+				"sms": "MyApp/sms/resend.php"
+			},
+			"authenticated": {
+				"subject": false,
+				"body": false
+			}
+		},
+		"uris": {
+			"MyApp/afterActivate": "MyApp/home"
+		},
+		"login": {
+			"identifierType": "email,mobile"
+		},
+		"authorize": {
+			"clients": {
+				"MyApp-ios": {
+					"paths": null,
+					"scopes": {
+						"all": "give this app full access"
+					},
+					"automatic": true
+				},
+				"MyApp-android": {
+					"paths": null,
+					"scopes": {
+						"all": "give this app full access"
+					},
+					"automatic": true
+				}
+			}
+		},
+		"onInsert": {
+			"labels": {
+				"Users/friends": ["Friends", "labels/Users/friends"],
+				"Users/family": ["Family", "labels/Users/family"],
+				"Users/business": ["Business", "labels/Users/business"],
+				"Users/dating": ["Dating", "labels/Users/dating"]
+			}
+		}
+	},
+	"Streams": {
+		"possibleUserStreams": {
+			"Streams/user/birthday": true,
+			"Streams/user/gender": true,
+			"Streams/user/height": true
+		},
+		"notifications": {
+			"onlyIfAllClientsOffline": true
+		}
+	},
+	"Assets": {
+		"transactional": {
+			"charge": {
+				"subject": "{{call 'publisher.displayName'}}: charge processed for {{call 'user.displayName'}}",
+				"body": "MyApp/email/charge.php",
+				"sms": "MyApp/sms/charge.php"
+			},
+			"charged": {
+				"subject": "Thank you for your payment to {{call 'publisher.displayName'}}",
+				"body": "MyApp/email/charged.php",
+				"sms": "MyApp/sms/charged.php"
+			},
+			"startSubscription": {
+				"subject": "{{call 'user.displayName'}} subscribed to {{plan.title}}",
+				"body": "MyApp/email/startSubscription.php",
+				"sms": "MyApp/sms/startSubscription.php"
+			},
+			"startedSubscription": {
+				"subject": "You have been subscribed to {{plan.title}}",
+				"body": "MyApp/email/startedSubscription.php",
+				"sms": "MyApp/sms/startedSubscription.php"
+			}
+		}
+	},
+	"Websites": {
+		"seoReload": true,
+		"permalinks": {
+			"routes": {},
+			"actions": {
+				"MyApp": [ /* actions that may get permalinks */ ]
+			}
+		}
+	}
+}
