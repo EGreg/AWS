@@ -91,7 +91,9 @@ class SimpleEmailService
 		$this->__accessKey = $accessKey;
 		$this->__secretKey = $secretKey;
 	}
-
+	/**
+	 * It is Used for get ListIdentities for domain only
+	 */
 	public function listIdentities() {
 		$rest = new SimpleEmailServiceRequest($this, 'GET');
 		$rest->setParameter('Action', 'ListIdentities');
@@ -122,7 +124,11 @@ class SimpleEmailService
 
 		return $response;
 	}
-
+	/**
+	 * It is used for Set Indentities to mail server
+	 * @param resource &$identities
+     * @param string &$email
+	 */
 	public function setIdentityMailFromDomain($identities,$email) {
 	
 		$rest = new SimpleEmailServiceRequest($this, 'GET');
@@ -154,7 +160,10 @@ class SimpleEmailService
 		return $response;
 	}
 
-	
+	/**
+	 * It is used for Verify domain
+     * @param string &$domain
+	 */
 
 	public function verifyDomainIdentity($domain) {
 		$rest = new SimpleEmailServiceRequest($this, 'POST');
@@ -421,6 +430,7 @@ final class SimpleEmailServiceRequest
 		return base64_encode(hash_hmac('sha256', $string, $this->ses->getSecretKey(), true));
 	}
 }
+
 
 
 
