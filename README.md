@@ -1,6 +1,6 @@
 # AWS
 
-Aws are managed used to create a domain and sub-domain dynamically with Qbix script. It is managed to our spam mail using functionality.
+Aws are managed and used to create a domain and sub-domain dynamically with Qbix script. It is managed to our spam mail using functionality.
 
 ## Getting Started
 
@@ -36,7 +36,7 @@ cd Platform/your_app_name/scripts/Q php aws.php
 
 ###Testing
 
-After running below command the following step are run
+After running above command the following step are run
 
 1) Host Zone Created in AWS Route53.
 2) Verify Domain Created in AWS SES.
